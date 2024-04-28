@@ -1,3 +1,12 @@
+<?php
+if (!is_object($e ?? null)) {
+    return;
+}
+
+if (!$e instanceof \Throwable) {
+    return;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>

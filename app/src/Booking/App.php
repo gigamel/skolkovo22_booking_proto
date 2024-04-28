@@ -45,7 +45,7 @@ final class App
         }
         
         $di = $this->loadDIContainer();
-        
+
         $this->booted = true;
     }
     
