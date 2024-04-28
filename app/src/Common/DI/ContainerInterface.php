@@ -20,4 +20,11 @@ interface ContainerInterface
      * @throws UnknownDependencyException
      */
     public function get(string $id): mixed;
+
+    /**
+     * @param string $id
+     *
+     * @return bool
+     */
+    public function has(string $id): bool;
 }
