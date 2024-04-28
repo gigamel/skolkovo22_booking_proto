@@ -20,12 +20,17 @@ final class ThrowableHandler
     /** @var bool */
     private $handled = false;
     
+    /** @var \Throwable */
+    private $throwable;
+
     /**
      * @param \Throwable $e
      * @param string $templateDirectory
+     * @param bool $isDev
      */
-    public function __construct(\Throwable $e, string $templateDirectory)
+    public function __construct(\Throwable $e, string $templateDirectory, private bool $isDev = false)
     {
+        $this->throwable = $e;
         $this->templateDirectory = $templateDirectory . '/server';
         
         if ($e instanceof \Exception) {
@@ -46,8 +51,13 @@ final class ThrowableHandler
             return;
         }
         
-        $this->response->send();
         $this->handled = true;
+
+        if ($this->isDev) {
+            $e = $this->throwable;
+        } else {
+            $this->response->send();
+        }
         
         require_once $this->getTemplateFile();
     }
@@ -57,6 +67,10 @@ final class ThrowableHandler
      */
     private function getTemplateFile(): string
     {
+        if ($this->isDev) {
+            return $this->templateDirectory . '/throwable.php';
+        }
+
         $template = sprintf('%d.html', $this->response->getStatusCode());
         if (!file_exists($this->templateDirectory . '/' . $template)) {
             $template = 'any.html';
