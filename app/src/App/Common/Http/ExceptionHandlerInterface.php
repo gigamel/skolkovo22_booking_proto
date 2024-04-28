@@ -2,7 +2,7 @@
 
 namespace App\Common\Http;
 
-use Skolkovo22\Http\ServerMessageInterface;
+use Skolkovo22\Http\Protocol\ServerMessageInterface;
 
 interface ExceptionHandlerInterface
 {

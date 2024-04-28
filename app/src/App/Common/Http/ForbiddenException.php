@@ -9,9 +9,9 @@ final class ForbiddenException extends HttpException
     * @param \Throwable|null $previous
     */
     public function __construct(
-        protected string $message = 'Forbidden',
-        protected ?\Throwable $previous = null
+        string $message = 'Forbidden',
+        ?\Throwable $previous = null
     ) {
-        $this->code = 403;
+        parent::__construct($message, 403, $previous);
     }
 }

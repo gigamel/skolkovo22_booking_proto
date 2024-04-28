@@ -2,7 +2,7 @@
 
 namespace App\Common\Routing;
 
-use Skolkovo22\Http\ClientMessageInterface;
+use Skolkovo22\Http\Protocol\ClientMessageInterface;
 
 interface RouterInterface
 {

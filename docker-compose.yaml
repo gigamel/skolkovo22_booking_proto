@@ -7,7 +7,7 @@ services:
       - "80:80"
     volumes:
       - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./app:/var/www/skolkovo22_booking
+      - ./app:/var/www/skolkovo22_booking_proto
     depends_on:
       - php
       - mysql
@@ -16,7 +16,7 @@ services:
       context: docker
       dockerfile: php.Dockerfile
     volumes:
-      - ./app:/var/www/skolkovo22_booking
+      - ./app:/var/www/skolkovo22_booking_proto
   mysql:
     image: "mysql:8.0"
     ports:
@@ -28,4 +28,4 @@ services:
       context: docker
       dockerfile: composer.Dockerfile
     volumes:
-      - ./app:/var/www/skolkovo22_booking
+      - ./app:/var/www/skolkovo22_booking_proto

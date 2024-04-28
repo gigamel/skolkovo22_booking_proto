@@ -9,9 +9,9 @@ final class NotFoundException extends HttpException
      * @param \Throwable|null $previous
      */
     public function __construct(
-        protected string $message = 'Not Found',
-        protected ?\Throwable $previous = null
+        string $message = 'Not Found',
+        ?\Throwable $previous = null
     ) {
-        $this->code = 404;
+        parent::__construct($message, 404, $previous);
     }
 }
