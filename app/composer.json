@@ -3,7 +3,8 @@
         "psr-4": {
             "App\\": "src/App/",
             "Booking\\": "src/Booking/",
-            "Skolkovo22\\": "src/Skolkovo22/"
+            "Skolkovo22\\": "src/Skolkovo22/",
+            "Modules\\": "modules/"
         }
     }
 }

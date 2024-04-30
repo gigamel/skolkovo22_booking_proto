@@ -42,4 +42,31 @@ interface ClientMessageInterface
      * @return string
      */
     public function getProtocolVersion(): string;
+
+    /**
+     * @param string $name
+     * @param string $value
+     *
+     * @return void
+     */
+    public function setAttribute(string $name, string $value): void;
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): array;
+
+    /**
+     * @param string $name
+     *
+     * @return string|null
+     */
+    public function getAttribute(string $name): ?string;
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasAttribute(string $name): bool;
 }

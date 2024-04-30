@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Booking\Http;
 
+use App\Common\Http\HttpException;
 use Skolkovo22\Http\Protocol\ServerMessageInterface;
 
 final class ThrowableHandler
@@ -68,7 +69,9 @@ final class ThrowableHandler
     private function getTemplateFile(): string
     {
         if ($this->isDev) {
-            return $this->templateDirectory . '/throwable.php';
+            if (!$this->throwable instanceof HttpException) {
+                return $this->templateDirectory . '/throwable.php';
+            }
         }
 
         $template = sprintf('%d.html', $this->response->getStatusCode());

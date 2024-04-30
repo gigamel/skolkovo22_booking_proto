@@ -6,6 +6,7 @@ interface ServerMessageInterface
 {
     public const
         STATUS_OK = 200,
+        STATUS_MOVED_PERMANENTLY = 301,
         STATUS_FORBIDDEN = 403,
         STATUS_NOT_FOUND = 404,
         STATUS_INTERNAL_SERVER_ERROR = 500
@@ -13,6 +14,7 @@ interface ServerMessageInterface
     
     public const MESSAGES = [
         self::STATUS_OK => 'OK',
+        self::STATUS_MOVED_PERMANENTLY => 'Moved Permanently',
         self::STATUS_FORBIDDEN => 'Forbidden',
         self::STATUS_NOT_FOUND => 'Not Found',
         self::STATUS_INTERNAL_SERVER_ERROR => 'Internal Server Error',

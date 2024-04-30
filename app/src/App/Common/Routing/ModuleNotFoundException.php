@@ -2,6 +2,6 @@
 
 namespace App\Common\Routing;
 
-final class ModuleNotFoundException extends RouteNotFoundException
+final class ModuleNotFoundException extends \InvalidArgumentException
 {
 }

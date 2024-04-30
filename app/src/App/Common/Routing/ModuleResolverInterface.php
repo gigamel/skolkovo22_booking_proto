@@ -9,9 +9,9 @@ interface ModuleResolverInterface
     /**
      * @param ClientMessageInterface $request
      *
-     * @return string
+     * @return ModuleInterface
      *
      * @throws ModuleNotFoundException
      */
-    public function resolve(ClientMessageInterface $request): string;
+    public function resolve(ClientMessageInterface $request): ModuleInterface;
 }
