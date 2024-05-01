@@ -13,6 +13,9 @@ class Module extends AbstractEstatesModule
 
     protected int $offset = 0;
 
+    /** @var int */
+    protected $count;
+
     /**
      * @param ClientMessageInterface $request
      *
@@ -24,11 +27,23 @@ class Module extends AbstractEstatesModule
             'view/list.php',
             [
                 'estates' => $this->repository->getList($this->limit, $this->offset),
-                'count' => $this->repository->getCount(),
+                'count' => $this->getCount(),
                 'limit' => $this->limit,
                 'offset' => $this->offset,
                 'router' => $this->router,
             ]
         );
+    }
+
+    /**
+     * @return int
+     */
+    protected function getCount(): int
+    {
+        if (is_null($this->count)) {
+            $this->count = $this->repository->getCount();
+        }
+
+        return $this->count;
     }
 }

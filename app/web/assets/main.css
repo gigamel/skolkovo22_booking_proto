@@ -74,6 +74,23 @@ table {
     color: #fff;
 }
 
+/* Estates */
+.estates-outer {
+    overflow: hidden;
+}
+
+.estates-filter {
+    float: left;
+    min-height: 1px;
+    width: 28%;
+}
+
+.estates-list {
+    float: right;
+    min-height: 1px;
+    width: 70%;
+}
+
 .estates {
     overflow: hidden;
 }
@@ -106,9 +123,11 @@ strong {
 }
 
 .btn {
+    background: none;
     border: 2px solid #3ab4c1;
     border-radius: 15px;
     color: #3ab4c1;
+    cursor: pointer;
     display: inline-block;
     font-size: 18px;
     font-weight: 700;
@@ -124,4 +143,16 @@ strong {
     text-align: center;
     text-decoration: none;
     padding: 7px;
+}
+
+/* Filter */
+.input-field {
+    margin-bottom: 15px;
+}
+
+.input-field input {
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 15px;
+    width: 100%;
 }

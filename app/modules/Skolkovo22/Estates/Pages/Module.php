@@ -39,6 +39,10 @@ final class Module extends \Modules\Skolkovo22\Estates\Module
         
         $this->offset = ($pageNumber - 1) * $this->limit;
 
+        if ($pageNumber > ceil($this->getCount() / $this->limit)) {
+            throw new NotFoundException('Estates Not Found');
+        }
+
         return parent::run($request);
     }
 }
