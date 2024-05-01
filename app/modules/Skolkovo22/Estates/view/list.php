@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="/assets/main.css"/>
-
 <?php /** @var \Modules\Skolkovo22\Estates\Entity\Estate[] $estates */ ?>
 <div class="estates">
   <?php foreach ($estates as $estate): ?>
@@ -9,7 +7,7 @@
       <p><?= $estate->summary; ?></p>
       <p>id: <?= $estate->id; ?></p>
       <p><strong>Цена:</strong> <?= $estate->price; ?> <?= $estate->currency; ?></p>
-      <a href="#" class="btn">Смотреть</a>
+      <a href="<?= $router->getRouteUrl('estate', ['entity_id' => (string)$estate->id]); ?>" class="btn">Смотреть</a>
     </div>
   </div>
   <?php endforeach; ?>
@@ -23,5 +21,5 @@ if ($pages < 2) {
 ?>
 
 <?php for ($page = 1; $page <= $pages; $page++): ?>
-  <a href="/estates/page/<?=$page;?>" class="page-number"><?= $page; ?></a>
+  <a href="/page/<?=$page;?>" class="page-number"><?= $page; ?></a>
 <?php endfor; ?>

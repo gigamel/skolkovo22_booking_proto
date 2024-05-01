@@ -49,6 +49,31 @@ table {
 
 
 /* Main styles */
+.app {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.header {
+    padding: 15px 0;
+}
+
+.logo {
+    border: 2px solid #3ab4c1;
+    color: #3ab4c1;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 15px;
+}
+
+.logo:hover {
+    background-color: #3ab4c1;
+    color: #fff;
+}
+
 .estates {
     overflow: hidden;
 }

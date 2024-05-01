@@ -11,10 +11,7 @@ use Skolkovo22\Http\Protocol\ServerMessageInterface;
 
 final class Module extends \Modules\Skolkovo22\Estates\Module
 {
-    private const
-        ATTR_PAGE_NUMBER = 'page_number',
-        ATTR_PAGE_ATTR_NAME = 'page_attr_name'
-    ;
+    private const ATTR_PAGE_NUMBER = 'page_number';
     
     /**
      * @param ClientMessageInterface $request

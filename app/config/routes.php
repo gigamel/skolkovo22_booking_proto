@@ -6,9 +6,8 @@ use Booking\Routing\RoutesCollection;
 
 $routesCollection = new RoutesCollection();
 
-$routesCollection->route('estates', '/estates/', 'skolkovo22.estates');
-$routesCollection->route('estates_pages', '/estates/{page_attr_name}/{page_number}', 'skolkovo22.estates.pages');
-$routesCollection->route('estates_category', '/estates/{entity_type}/', 'skolkovo22.estates.category');
-$routesCollection->route('estates_category_pages', '/estates/{entity_type}/{page_attr_name}/{page_number}', 'skolkovo22.estates.category.pages');
+$routesCollection->route('estates', '/', 'skolkovo22.estates');
+$routesCollection->route('estates_pages', '/{page_attr_name}/{page_number}', 'skolkovo22.estates.pages');
+$routesCollection->route('estate', '/estate/{entity_id}', 'skolkovo22.estates.estate');
 
 return $routesCollection;

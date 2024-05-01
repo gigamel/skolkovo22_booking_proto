@@ -28,6 +28,19 @@ final class EstateRepository
     }
     
     /**
+     * @param int $id
+     *
+     * @return Estate|null
+     */
+    public function getById(int $id): ?Estate
+    {
+        return $this->connection
+            ->getConnection()
+            ->query(sprintf('SELECT * FROM `estate` WHERE `id`= %d;', $id))
+            ->fetchObject(Estate::class) ?: null;
+    }
+
+    /**
      * @return int
      */
     public function getCount(): int

@@ -8,11 +8,25 @@ use App\Common\Renderer\TemplateEngineInterface;
 
 class TemplateEngine implements TemplateEngineInterface
 {
+    protected $theme = '/var/www/skolkovo22_booking_proto/theme/default.php';
+
+    public function __construct(protected string $content = '')
+    {
+    }
+
     /**
      * @return string
      */
     public function getContent(): string
     {
-        // TODO: Implement render() method.
+        return $this->content;
+    }
+
+    /**
+     * @return void
+     */
+    public function includeTheme(): void
+    {
+        require_once $this->theme;
     }
 }

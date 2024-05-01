@@ -27,6 +27,7 @@ class Module extends AbstractEstatesModule
                 'count' => $this->repository->getCount(),
                 'limit' => $this->limit,
                 'offset' => $this->offset,
+                'router' => $this->router,
             ]
         );
     }
