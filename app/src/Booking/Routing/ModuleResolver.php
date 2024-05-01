@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Booking\Routing;
 
 use App\Common\DI\ContainerInterface;
+use App\Common\DI\ReflectorInterface;
 use App\Common\DI\ServicesProviderInterface;
 use App\Common\Routing\ModuleInterface;
 use App\Common\Routing\ModuleNotFoundException;
@@ -18,10 +19,12 @@ class ModuleResolver implements ModuleResolverInterface
 {
     /**
      * @param RouterInterface $router
+     * @param ReflectorInterface $reflector
      * @param ContainerInterface $container
      */
     public function __construct(
         protected RouterInterface $router,
+        protected ReflectorInterface $reflector,
         protected ContainerInterface $container
     ) {
     }
@@ -65,7 +68,7 @@ class ModuleResolver implements ModuleResolverInterface
                 );
             }
             
-            (new $serviceProviderClassName())->provideServices($this->container);
+            (new $serviceProviderClassName())->provideServices($this->container, $this->reflector);
         }
         
         $moduleClassName = sprintf('%s\\Module', $namespace);
@@ -76,8 +79,8 @@ class ModuleResolver implements ModuleResolverInterface
         if (!is_a($moduleClassName, ModuleInterface::class, true)) {
             throw new ModuleNotFoundException(sprintf('Module class %s must implements %s', $moduleClassName, ModuleInterface::class));
         }
-        
-        return new $moduleClassName();
+
+        return $this->reflector->autowire($moduleClassName);
     }
     
     /**

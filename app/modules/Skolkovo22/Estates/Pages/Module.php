@@ -6,11 +6,10 @@ namespace Modules\Skolkovo22\Estates\Pages;
 
 use App\Common\Http\NotFoundException;
 use Booking\Http\Response;
-use Modules\Skolkovo22\Estates\AbstractEstatesModule;
 use Skolkovo22\Http\Protocol\ClientMessageInterface;
 use Skolkovo22\Http\Protocol\ServerMessageInterface;
 
-final class Module extends AbstractEstatesModule
+final class Module extends \Modules\Skolkovo22\Estates\Module
 {
     private const
         ATTR_PAGE_NUMBER = 'page_number',
@@ -41,7 +40,9 @@ final class Module extends AbstractEstatesModule
             );
         }
         
-        return new Response('Estates ' . $request->getAttribute('page_number') . ' num');
+        $this->offset = ($pageNumber - 1) * $this->limit;
+
+        return parent::run($request);
     }
     
     /**

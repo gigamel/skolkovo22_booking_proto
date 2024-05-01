@@ -5,22 +5,20 @@ declare(strict_types=1);
 namespace Modules\Skolkovo22\Estates;
 
 use App\Common\DI\ContainerInterface;
+use App\Common\DI\ReflectorInterface;
 use App\Common\DI\ServicesProviderInterface;
-use App\Common\Storage\ConnectionInterface;
-use Modules\Skolkovo22\Estates\Service\EstatesRepository;
+use Modules\Skolkovo22\Estates\Service\EstateRepository;
 
 final class ServicesProvider implements ServicesProviderInterface
 {
     /**
-     * @param ContainerInterface $container
-     *
-     * @return void
+     * @inheritDoc
      */
-    public function provideServices(ContainerInterface $container): void
+    public function provideServices(ContainerInterface $container, ReflectorInterface $reflector): void
     {
         $container->set(
-            EstatesRepository::class,
-            new EstatesRepository($container->get(ConnectionInterface::class))
+            EstateRepository::class,
+            $reflector->autowire(EstateRepository::class)
         );
     }
 }

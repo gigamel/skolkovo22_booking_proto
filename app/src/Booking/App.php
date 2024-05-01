@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Booking;
 
 use App\Common\DI\ContainerInterface;
+use App\Common\DI\ReflectorInterface;
 use App\Common\Routing\ModuleInterface;
 use App\Common\Routing\RoutesCollectionInterface;
 use App\Common\Storage\ConnectionInterface;
 use Booking\DI\Container;
+use Booking\DI\Reflector;
 use Booking\Http\Request;
 use Booking\Http\ThrowableHandler;
 use Booking\Routing\ModuleResolver;
@@ -52,7 +54,12 @@ final class App
         }
 
         $request = new Request();
-        $module = $this->createInstanceModule($request);
+        $container = new Container();
+        $reflector = new Reflector($container);
+
+        $this->loadDIContainer($container, $reflector);
+
+        $module = $this->createInstanceModule($request, $container, $reflector);
         $httpResponse = $module->run($request);
         $httpResponse->send();
 
@@ -69,26 +76,31 @@ final class App
     }
     
     /**
-     * @return ContainerInterface
+     * @param ContainerInterface $container
+     * @param ReflectorInterface $reflector
+     *
+     * @return void
      */
-    private function loadDIContainer(): ContainerInterface
+    private function loadDIContainer(ContainerInterface $container, ReflectorInterface $reflector): void
     {
-        $di = new Container();
-        $services = require_once($this->baseDirectory . '/config/services.php');
-        $di->set(ConnectionInterface::class, new Connection(...$services[Connection::class]));
-        return $di;
+        $reflector->import($this->baseDirectory . '/config/services.php');
+
+        $container->set(ConnectionInterface::class, $reflector->autowire(Connection::class));
     }
 
     /**
      * @param ClientMessageInterface $request
+     * @param ContainerInterface $container
+     * @param ReflectorInterface $reflector
      *
      * @return ModuleInterface
      */
-    private function createInstanceModule(ClientMessageInterface $request): ModuleInterface
+    private function createInstanceModule(ClientMessageInterface $request, ContainerInterface $container, ReflectorInterface $reflector): ModuleInterface
     {
         return (new ModuleResolver(
             new Router($this->getRoutesCollection()),
-            $this->loadDIContainer()
+            $reflector,
+            $container
         ))->resolve($request);
     }
 
