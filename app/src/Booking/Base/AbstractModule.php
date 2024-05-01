@@ -5,11 +5,19 @@ declare(strict_types=1);
 namespace Booking\Base;
 
 use App\Common\Routing\ModuleInterface;
+use App\Common\Routing\RouterInterface;
 use Booking\Http\Response;
 use Skolkovo22\Http\Protocol\ServerMessageInterface;
 
 abstract class AbstractModule implements ModuleInterface
 {
+    /**
+     * @param RouterInterface $router
+     */
+    public function __construct(protected RouterInterface $router)
+    {
+    }
+
     /**
      * @return string
      */

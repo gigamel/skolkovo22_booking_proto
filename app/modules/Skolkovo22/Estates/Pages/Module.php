@@ -35,7 +35,7 @@ final class Module extends \Modules\Skolkovo22\Estates\Module
                 '',
                 ServerMessageInterface::STATUS_MOVED_PERMANENTLY,
                 [
-                    'Location' => $this->getRedirectStartPage($request),
+                    'Location' => $this->router->getRouteUrl('estates'),
                 ]
             );
         }
@@ -43,23 +43,5 @@ final class Module extends \Modules\Skolkovo22\Estates\Module
         $this->offset = ($pageNumber - 1) * $this->limit;
 
         return parent::run($request);
-    }
-    
-    /**
-     * @param ClientMessageInterface $request
-     *
-     * @return string
-     */
-    private function getRedirectStartPage(ClientMessageInterface $request): string
-    {
-        return str_replace(
-            sprintf(
-                '%s/%s',
-                $request->getAttribute(self::ATTR_PAGE_ATTR_NAME),
-                $request->getAttribute(self::ATTR_PAGE_NUMBER)
-            ),
-            '',
-            $request->getPath()
-        );
     }
 }

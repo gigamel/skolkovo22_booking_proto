@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Booking\Routing;
 
 use App\Common\Routing\RouteInterface;
+use App\Common\Routing\RouteNotFoundException;
 use App\Common\Routing\RoutesCollectionInterface;
 use Skolkovo22\Http\Protocol\ClientMessageInterface;
 
@@ -12,17 +13,6 @@ class RoutesCollection implements RoutesCollectionInterface
 {
     /** @var array */
     protected $_collection = [];
-    
-    /** @var array */
-    protected $_segments;
-    
-    /**
-     * @param array $segments
-     */
-    public function __construct(array $segments = [])
-    {
-        $this->setSegments($segments);
-    }
     
     /**
      * @param string $id
@@ -41,55 +31,30 @@ class RoutesCollection implements RoutesCollectionInterface
             throw new RouteAlreadyExistsException(sprintf('Route %s already exists', $name));
         }
 
-        $this->_collection[$name] = new Route($this->resolveRule($rule), $action, $methods);
+        $this->_collection[$name] = new Route($rule, $action, $methods);
     }
-    
+
+    /**
+     * @param string $name
+     *
+     * @return RouteInterface
+     *
+     * @throws RouteNotFoundException
+     */
+    public function getRoute(string $name): RouteInterface
+    {
+        if (!array_key_exists($name, $this->_collection)) {
+            throw new RouteNotFoundException(sprintf('Route name %s not found', $name));
+        }
+
+        return $this->_collection[$name];
+    }
+
     /**
      * @return RouteInterface[]
      */
     public function getCollection(): array
     {
         return $this->_collection;
-    }
-    
-    /**
-     * @param array $segments
-     *
-     * @return void
-     */
-    protected function setSegments(array $segments): void
-    {
-        foreach ($segments as $segment => $regEx) {
-            $this->setSegment($segment, $regEx);
-        }
-    }
-    
-    /**
-     * @param string $segment
-     * @param string $regEx
-     *
-     * @return void
-     */
-    protected function setSegment(string $segment, string $regEx): void
-    {
-        $this->_segments[$segment] = $regEx;
-    }
-    
-    /**
-     * @param string $rule
-     *
-     * @param string
-     */
-    protected function resolveRule(string $rule): string
-    {
-        foreach ($this->_segments as $segment => $regEx) {
-            $rule = str_replace(
-                sprintf('{%s}', $segment),
-                sprintf('(?P<%s>%s)', $segment, $regEx),
-                $rule
-            );
-        }
-        
-        return $rule;
     }
 }

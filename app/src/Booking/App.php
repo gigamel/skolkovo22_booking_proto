@@ -86,6 +86,8 @@ final class App
     {
         $reflector->import($this->baseDirectory . '/config/services.php');
 
+        $container->set(RoutesCollectionInterface::class, $this->getRoutesCollection());
+        $container->set(RouterInterface::class, $reflector->autowire(Router::class));
         $container->set(ConnectionInterface::class, $reflector->autowire(Connection::class));
     }
 
@@ -99,7 +101,7 @@ final class App
     private function createInstanceModule(ClientMessageInterface $request, ContainerInterface $container, ReflectorInterface $reflector): ModuleInterface
     {
         return (new ModuleResolver(
-            $this->getRouter(),
+            $container->get(RouterInterface::class),
             $reflector,
             $container
         ))->resolve($request);
@@ -111,13 +113,5 @@ final class App
     private function getRoutesCollection(): RoutesCollectionInterface
     {
         return require_once($this->baseDirectory . '/config/routes.php');
-    }
-
-    /**
-     * @return RouterInterface
-     */
-    private function getRouter(): RouterInterface
-    {
-        return new Router($this->getRoutesCollection());
     }
 }
