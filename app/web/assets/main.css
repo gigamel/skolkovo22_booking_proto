@@ -57,6 +57,7 @@ table {
 
 .header {
     padding: 15px 0;
+    margin-bottom: 45px;
 }
 
 .logo {
@@ -66,12 +67,18 @@ table {
     font-size: 20px;
     font-weight: 700;
     text-decoration: none;
+    margin-right: 35px;
     padding: 15px;
 }
 
 .logo:hover {
     background-color: #3ab4c1;
     color: #fff;
+}
+
+.slogan {
+    color: #555555;
+    letter-spacing: 3px;
 }
 
 /* Estates */
