@@ -13,23 +13,26 @@ class Route implements RouteInterface
     protected $methods;
     
     /**
-     * @param string $id
      * @param string $rule
      * @param string[] $methods
+     * @param string $action
      *
      * @throws InvalidHttpMethodException
      */
-    public function __construct(protected string $id, protected string $rule, array $methods)
-    {
+    public function __construct(
+        protected string $rule,
+        protected string $action,
+        array $methods
+    ) {
         $this->setMethods($methods);
     }
 
     /**
      * @return string
      */
-    public function getId(): string
+    public function getAction(): string
     {
-        return $this->id;
+        return $this->action;
     }
 
     /**

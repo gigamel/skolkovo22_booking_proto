@@ -93,7 +93,7 @@ class ModuleResolver implements ModuleResolverInterface
         return 'Modules\\' . str_replace(
             '.',
             '\\',
-            ucwords($route->getId(), '.')
+            ucwords($route->getAction(), '.')
         );
     }
 }

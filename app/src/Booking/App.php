@@ -7,6 +7,7 @@ namespace Booking;
 use App\Common\DI\ContainerInterface;
 use App\Common\DI\ReflectorInterface;
 use App\Common\Routing\ModuleInterface;
+use App\Common\Routing\RouterInterface;
 use App\Common\Routing\RoutesCollectionInterface;
 use App\Common\Storage\ConnectionInterface;
 use Booking\DI\Container;
@@ -98,7 +99,7 @@ final class App
     private function createInstanceModule(ClientMessageInterface $request, ContainerInterface $container, ReflectorInterface $reflector): ModuleInterface
     {
         return (new ModuleResolver(
-            new Router($this->getRoutesCollection()),
+            $this->getRouter(),
             $reflector,
             $container
         ))->resolve($request);
@@ -110,5 +111,13 @@ final class App
     private function getRoutesCollection(): RoutesCollectionInterface
     {
         return require_once($this->baseDirectory . '/config/routes.php');
+    }
+
+    /**
+     * @return RouterInterface
+     */
+    private function getRouter(): RouterInterface
+    {
+        return new Router($this->getRoutesCollection());
     }
 }

@@ -27,15 +27,21 @@ class RoutesCollection implements RoutesCollectionInterface
     /**
      * @param string $id
      * @param string $rule
+     * @param string $action
      * @param string[] $methods
      *
      * @return void
      *
      * @throws InvalidHttpMethodException
+     * @throws RouteAlreadyExistsException
      */
-    public function route(string $id, string $rule, array $methods = ClientMessageInterface::HTTP_METHODS): void
+    public function route(string $name, string $rule, string $action, array $methods = ClientMessageInterface::HTTP_METHODS): void
     {
-        $this->_collection[] = new Route($id, $this->resolveRule($rule), $methods);
+        if (array_key_exists($name, $this->_collection)) {
+            throw new RouteAlreadyExistsException(sprintf('Route %s already exists', $name));
+        }
+
+        $this->_collection[$name] = new Route($this->resolveRule($rule), $action, $methods);
     }
     
     /**
