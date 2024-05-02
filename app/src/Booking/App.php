@@ -16,6 +16,7 @@ use Booking\Http\Request;
 use Booking\Http\ThrowableHandler;
 use Booking\Routing\ModuleResolver;
 use Booking\Routing\Router;
+use Booking\Service\Currency\Converter;
 use Booking\Service\Storage\Connection;
 use Skolkovo22\Http\Protocol\ClientMessageInterface;
 
@@ -90,6 +91,7 @@ final class App
     {
         $reflector->import($this->baseDirectory . '/config/services.php');
 
+        $container->set(Converter::class, new Converter());
         $container->set(RoutesCollectionInterface::class, $this->getRoutesCollection());
         $container->set(RouterInterface::class, $reflector->autowire(Router::class));
         $container->set(ConnectionInterface::class, $reflector->autowire(Connection::class));

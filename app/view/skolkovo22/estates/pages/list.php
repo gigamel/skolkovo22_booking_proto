@@ -2,9 +2,11 @@
 
 use Booking\Service\File\File;
 use Modules\Skolkovo22\Estates\Entity\Estate;
+use Booking\Service\Currency\Converter;
 
 /** @var Estate[] $estates */
 /** @var File[] $files */
+/** @var Converter $converter */
 
 ?>
 <div class="estates-outer">
@@ -37,8 +39,7 @@ use Modules\Skolkovo22\Estates\Entity\Estate;
                     <?php endif; ?>
                     
                     <p><?= $estate->summary; ?></p>
-                    <p>id: <?= $estate->id; ?></p>
-                    <p><strong>Цена:</strong> <?= $estate->price; ?> <?= $estate->currency; ?></p>
+                    <p><strong>Цена:</strong> <?= $converter->convertToMajors($estate->price, $estate->currency); ?> <?= $estate->currency; ?></p>
                     <a href="<?= $router->getRouteUrl('estate', ['entity_id' => (string)$estate->id]); ?>" class="btn">Смотреть</a>
                 </div>
             </div>

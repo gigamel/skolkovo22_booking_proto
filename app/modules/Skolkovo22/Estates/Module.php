@@ -11,7 +11,7 @@ use Skolkovo22\Http\Protocol\ServerMessageInterface;
 
 class Module extends AbstractEstatesModule
 {
-    protected int $limit = 3;
+    protected int $limit = 4;
 
     protected int $offset = 0;
 
@@ -33,6 +33,7 @@ class Module extends AbstractEstatesModule
                 'offset' => $this->offset,
                 'router' => $this->router,
                 'files' => $this->getFiles($estates),
+                'converter' => $this->converter,
             ]
         );
     }
