@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Skolkovo22\Estates;
 
 use Booking\Service\File\File;
-use Modules\Skolkovo22\Estates\Entity\Estate;
+use Modules\Skolkovo22\Estates\Service\Estate\Estate;
 use Skolkovo22\Http\Protocol\ClientMessageInterface;
 use Skolkovo22\Http\Protocol\ServerMessageInterface;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Skolkovo22\Estates\Entity;
+namespace Modules\Skolkovo22\Estates\Service\Estate;
 
 final class Estate
 {

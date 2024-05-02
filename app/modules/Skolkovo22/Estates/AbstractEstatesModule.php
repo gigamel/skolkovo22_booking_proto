@@ -7,7 +7,7 @@ namespace Modules\Skolkovo22\Estates;
 use Booking\Base\AbstractModule;
 use Booking\Service\Currency\Converter;
 use Booking\Service\File\FileRepository;
-use Modules\Skolkovo22\Estates\Service\EstateRepository;
+use Modules\Skolkovo22\Estates\Service\Estate\EstateRepository;
 
 abstract class AbstractEstatesModule extends AbstractModule
 {

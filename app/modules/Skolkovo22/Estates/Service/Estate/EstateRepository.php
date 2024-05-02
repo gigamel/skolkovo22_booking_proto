@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Modules\Skolkovo22\Estates\Service;
+namespace Modules\Skolkovo22\Estates\Service\Estate;
 
 use App\Common\Storage\ConnectionInterface;
-use Modules\Skolkovo22\Estates\Entity\Estate;
 
 final class EstateRepository
 {

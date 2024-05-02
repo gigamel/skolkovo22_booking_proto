@@ -6,10 +6,11 @@ namespace Modules\Skolkovo22\Estates\Pages;
 
 use App\Common\Http\NotFoundException;
 use Booking\Http\Response;
+use Modules\Skolkovo22\Estates\Module as EstatesModule;
 use Skolkovo22\Http\Protocol\ClientMessageInterface;
 use Skolkovo22\Http\Protocol\ServerMessageInterface;
 
-final class Module extends \Modules\Skolkovo22\Estates\Module
+final class Module extends EstatesModule
 {
     private const ATTR_PAGE_NUMBER = 'page_number';
     
