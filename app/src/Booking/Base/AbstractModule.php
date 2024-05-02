@@ -12,11 +12,34 @@ use Skolkovo22\Http\Protocol\ServerMessageInterface;
 
 abstract class AbstractModule implements ModuleInterface
 {
+    /** @var string */
+    protected $viewDir;
+
+    /** @var RouterInterface */
+    protected $router;
+
+    /**
+     * @param string $viewDir
+     *
+     * @return void
+     */
+    final public function setViewDir(string $viewDir): void
+    {
+        if (is_null($this->viewDir)) {
+            $this->viewDir = $viewDir;
+        }
+    }
+
     /**
      * @param RouterInterface $router
+     *
+     * @return void
      */
-    public function __construct(protected RouterInterface $router)
+    final public function setRouter(RouterInterface $router): void
     {
+        if (is_null($this->router)) {
+            $this->router = $router;
+        }
     }
 
     /**
@@ -32,7 +55,8 @@ abstract class AbstractModule implements ModuleInterface
      */
     protected function render(string $view, array $vars = []): ServerMessageInterface
     {
-        $templateEngine = new TemplateEngine($this->renderView($view, $vars));
+        $templateEngine = new TemplateEngine();
+        $templateEngine->setContent($this->renderView($view, $vars));
 
         ob_start();
         $templateEngine->includeTheme();
@@ -54,9 +78,9 @@ abstract class AbstractModule implements ModuleInterface
         unset($vars);
 
         $content = '';
-        if (file_exists($this->getModuleDir() . '/' . $view)) {
+        if (file_exists($this->viewDir . '/' . $view)) {
             ob_start();
-            require_once $this->getModuleDir() . '/' . $view;
+            require_once $this->viewDir . '/' . $view;
             $content = ob_get_contents();
             ob_end_clean();
         }

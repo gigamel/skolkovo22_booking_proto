@@ -10,6 +10,13 @@ interface TemplateEngineInterface
     public function getContent(): string;
 
     /**
+     * @param string $content
+     *
+     * @return void
+     */
+    public function setContent(string $content): void;
+
+    /**
      * @return void
      */
     public function includeTheme(): void;

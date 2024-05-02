@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace Modules\Skolkovo22\Estates;
 
-use App\Common\Routing\RouterInterface;
 use Booking\Base\AbstractModule;
+use Booking\Service\File\FileRepository;
 use Modules\Skolkovo22\Estates\Service\EstateRepository;
 
 abstract class AbstractEstatesModule extends AbstractModule
 {
     /**
-     * @param RouterInterface $router
      * @param EstateRepository $repository
+     * @param FileRepository $fileRepository
      */
-    public function __construct(RouterInterface $router, protected EstateRepository $repository)
-    {
-        parent::__construct($router);
+    public function __construct(
+        protected EstateRepository $repository,
+        protected FileRepository $fileRepository
+    ) {
     }
 
     /**

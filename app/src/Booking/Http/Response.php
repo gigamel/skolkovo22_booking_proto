@@ -82,7 +82,7 @@ class Response implements ServerMessageInterface
      */
     public function putHeader(string $header, string $value): void
     {
-        $this->headers[\ucwords(\strtolower($header), '-')] = $value;
+        $this->headers[ucwords(strtolower($header), '-')] = $value;
     }
     
     /**

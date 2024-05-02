@@ -54,6 +54,8 @@ final class App
             return;
         }
 
+        $startMicroTime = microtime(true);
+
         $request = new Request();
         $container = new Container();
         $reflector = new Reflector($container);
@@ -62,6 +64,8 @@ final class App
 
         $module = $this->createInstanceModule($request, $container, $reflector);
         $httpResponse = $module->run($request);
+
+        $httpResponse->putHeader('Skolkovo-Profiler-Time', (string)(microtime(true) - $startMicroTime));
         $httpResponse->send();
 
         echo $httpResponse->getBody();
@@ -103,7 +107,8 @@ final class App
         return (new ModuleResolver(
             $container->get(RouterInterface::class),
             $reflector,
-            $container
+            $container,
+            $this->getBaseViewDirectory()
         ))->resolve($request);
     }
 
@@ -113,5 +118,13 @@ final class App
     private function getRoutesCollection(): RoutesCollectionInterface
     {
         return require_once($this->baseDirectory . '/config/routes.php');
+    }
+
+    /**
+     * @return string
+     */
+    private function getBaseViewDirectory(): string
+    {
+        return $this->baseDirectory . '/view';
     }
 }

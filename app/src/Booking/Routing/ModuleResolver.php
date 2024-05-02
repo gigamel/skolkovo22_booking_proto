@@ -6,13 +6,13 @@ namespace Booking\Routing;
 
 use App\Common\DI\ContainerInterface;
 use App\Common\DI\ReflectorInterface;
-use App\Common\DI\ServicesProviderInterface;
 use App\Common\Routing\ModuleInterface;
 use App\Common\Routing\ModuleNotFoundException;
 use App\Common\Routing\ModuleResolverInterface;
 use App\Common\Routing\RouteInterface;
 use App\Common\Routing\RouteNotFoundException;
 use App\Common\Routing\RouterInterface;
+use Booking\Base\AbstractModule;
 use Skolkovo22\Http\Protocol\ClientMessageInterface;
 
 class ModuleResolver implements ModuleResolverInterface
@@ -21,11 +21,13 @@ class ModuleResolver implements ModuleResolverInterface
      * @param RouterInterface $router
      * @param ReflectorInterface $reflector
      * @param ContainerInterface $container
+     * @param string $applicationBaseDirectory
      */
     public function __construct(
         protected RouterInterface $router,
         protected ReflectorInterface $reflector,
-        protected ContainerInterface $container
+        protected ContainerInterface $container,
+        protected string $baseViewDirectory
     ) {
     }
     
@@ -54,33 +56,24 @@ class ModuleResolver implements ModuleResolverInterface
      */
     protected function createModuleInstance(ClientMessageInterface $request): ModuleInterface
     {
-        $namespace = $this->getModuleNamespace($this->router->handle($request));
+        $route = $this->router->handle($request);
         
-        $serviceProviderClassName = sprintf('%s\\ServicesProvider', $namespace);
-        if (class_exists($serviceProviderClassName)) {
-            if (!is_a($serviceProviderClassName, ServicesProviderInterface::class, true)) {
-                throw new ModuleNotFoundException(
-                    sprintf(
-                        'Class %s must implements %s',
-                        $serviceProviderClassName,
-                        ServicesProviderInterface::class
-                    )
-                );
-            }
-            
-            (new $serviceProviderClassName())->provideServices($this->container, $this->reflector);
-        }
-        
-        $moduleClassName = sprintf('%s\\Module', $namespace);
+        $moduleClassName = sprintf('%s\\Module', $this->getModuleNamespace($route));
         if (!class_exists($moduleClassName)) {
             throw new ModuleNotFoundException(sprintf('Module class %s not found', $moduleClassName));
         }
         
-        if (!is_a($moduleClassName, ModuleInterface::class, true)) {
-            throw new ModuleNotFoundException(sprintf('Module class %s must implements %s', $moduleClassName, ModuleInterface::class));
+        if (!is_a($moduleClassName, AbstractModule::class, true)) {
+            throw new ModuleNotFoundException(sprintf('Module class %s must be instance of %s', $moduleClassName, AbstractModule::class));
         }
 
-        return $this->reflector->autowire($moduleClassName);
+        $instanceModule = $this->reflector->autowire($moduleClassName);
+        if ($instanceModule instanceof AbstractModule) {
+            $instanceModule->setViewDir($this->getViewDir($route));
+            $instanceModule->setRouter($this->router);
+        }
+
+        return $instanceModule;
     }
     
     /**
@@ -95,5 +88,15 @@ class ModuleResolver implements ModuleResolverInterface
             '\\',
             ucwords($route->getAction(), '.')
         );
+    }
+
+    /**
+     * @param RouteInterface $route
+     *
+     * @return string
+     */
+    protected function getViewDir(RouteInterface $route): string
+    {
+        return $this->baseViewDirectory . '/' . str_replace('.', '/', strtolower($route->getAction()));
     }
 }

@@ -28,7 +28,7 @@ final class Module extends AbstractEstatesModule
         }
         
         return $this->render(
-            'view/estate.php',
+            'card.php',
             [
                 'estate' => $estate,
                 'router' => $this->router,

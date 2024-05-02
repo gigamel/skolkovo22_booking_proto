@@ -9,6 +9,9 @@ use Modules\Skolkovo22\Estates\Entity\Estate;
 
 final class EstateRepository
 {
+    /** @var int */
+    private $count;
+
     /**
      * @param ConnectionInterface $connection
      */
@@ -45,9 +48,13 @@ final class EstateRepository
      */
     public function getCount(): int
     {
-        return $this->connection
-            ->getConnection()
-            ->query('SELECT COUNT(`id`) FROM `estate`;')
-            ->fetchColumn();
+        if (is_null($this->count)) {
+            $this->count = $this->connection
+                ->getConnection()
+                ->query('SELECT COUNT(`id`) FROM `estate`;')
+                ->fetchColumn();
+        }
+
+        return $this->count;
     }
 }

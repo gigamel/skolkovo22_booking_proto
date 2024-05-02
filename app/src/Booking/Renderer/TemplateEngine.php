@@ -10,16 +10,23 @@ class TemplateEngine implements TemplateEngineInterface
 {
     protected $theme = '/var/www/skolkovo22_booking_proto/theme/default.php';
 
-    public function __construct(protected string $content = '')
-    {
-    }
+    /** @var string */
+    protected $content = '';
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
     }
 
     /**

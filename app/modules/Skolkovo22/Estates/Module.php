@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Skolkovo22\Estates;
 
+use Booking\Service\File\File;
+use Modules\Skolkovo22\Estates\Entity\Estate;
 use Skolkovo22\Http\Protocol\ClientMessageInterface;
 use Skolkovo22\Http\Protocol\ServerMessageInterface;
 
@@ -13,9 +15,6 @@ class Module extends AbstractEstatesModule
 
     protected int $offset = 0;
 
-    /** @var int */
-    protected $count;
-
     /**
      * @param ClientMessageInterface $request
      *
@@ -23,27 +22,46 @@ class Module extends AbstractEstatesModule
      */
     public function run(ClientMessageInterface $request): ServerMessageInterface
     {
+        $estates = $this->repository->getList($this->limit, $this->offset);
+
         return $this->render(
-            'view/list.php',
+            'list.php',
             [
-                'estates' => $this->repository->getList($this->limit, $this->offset),
-                'count' => $this->getCount(),
+                'estates' => $estates,
+                'count' => $this->repository->getCount(),
                 'limit' => $this->limit,
                 'offset' => $this->offset,
                 'router' => $this->router,
+                'files' => $this->getFiles($estates),
             ]
         );
     }
 
     /**
-     * @return int
+     * @param Estate[] $estates
+     *
+     * @return File[]
      */
-    protected function getCount(): int
+    protected function getFiles(array $estates): array
     {
-        if (is_null($this->count)) {
-            $this->count = $this->repository->getCount();
+        $estatesIds = [];
+        foreach ($estates as $estate) {
+            if (in_array($estate->id, $estatesIds, true)) {
+                continue;
+            }
+
+            $estatesIds[] = $estate->id;
         }
 
-        return $this->count;
+        $files = [];
+        foreach ($this->fileRepository->getByEntityIds('estate', $estatesIds) as $file) {
+            if (!is_array($files[$file->entity_id] ?? null)) {
+                $files[$file->entity_id] = [];
+            }
+
+            $files[$file->entity_id][] = $file;
+        }
+
+        return $files;
     }
 }
