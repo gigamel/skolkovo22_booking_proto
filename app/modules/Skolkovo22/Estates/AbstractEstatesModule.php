@@ -22,12 +22,4 @@ abstract class AbstractEstatesModule extends AbstractModule
         protected Converter $converter
     ) {
     }
-
-    /**
-     * @return string
-     */
-    protected function getModuleDir(): string
-    {
-        return __DIR__;
-    }
 }

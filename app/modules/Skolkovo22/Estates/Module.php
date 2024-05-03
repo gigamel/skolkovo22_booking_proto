@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Skolkovo22\Estates;
 
+use App\Common\Http\NotFoundException;
+use Booking\Http\Response;
 use Booking\Service\File\File;
 use Modules\Skolkovo22\Estates\Service\Estate\Estate;
 use Skolkovo22\Http\Protocol\ClientMessageInterface;
@@ -11,6 +13,8 @@ use Skolkovo22\Http\Protocol\ServerMessageInterface;
 
 class Module extends AbstractEstatesModule
 {
+    private const ATTR_PAGE_NUMBER = 'page_number';
+
     protected int $limit = 4;
 
     protected int $offset = 0;
@@ -19,9 +23,27 @@ class Module extends AbstractEstatesModule
      * @param ClientMessageInterface $request
      *
      * @return ServerMessageInterface
+     *
+     * @throws NotFoundException
      */
     public function run(ClientMessageInterface $request): ServerMessageInterface
     {
+        if ($request->hasAttribute(self::ATTR_PAGE_NUMBER)) {
+            $pageNumber = (int)$request->getAttribute(self::ATTR_PAGE_NUMBER);
+
+            $this->processPage($pageNumber);
+
+            if (1 === $pageNumber) {
+                return new Response(
+                    '',
+                    ServerMessageInterface::STATUS_MOVED_PERMANENTLY,
+                    ['Location' => $this->router->getRouteUrl('estates')]
+                );
+            }
+
+            $this->offset = ($pageNumber - 1) * $this->limit;
+        }
+
         $estates = $this->repository->getList($this->limit, $this->offset);
 
         return $this->render(
@@ -64,5 +86,23 @@ class Module extends AbstractEstatesModule
         }
 
         return $files;
+    }
+
+    /**
+     * @param int $pageNumber
+     *
+     * @return void
+     *
+     * @throws NotFoundException
+     */
+    private function processPage(int $pageNumber): void
+    {
+        if (0 === $pageNumber) {
+            throw new NotFoundException('Page Not Found');
+        }
+
+        if ($pageNumber > ceil($this->repository->getCount() / $this->limit)) {
+            throw new NotFoundException('Estates Not Found');
+        }
     }
 }

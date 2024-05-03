@@ -1,12 +1,16 @@
 <?php
 
-use Booking\Service\File\File;
-use Modules\Skolkovo22\Estates\Entity\Estate;
+use App\Common\Routing\RouterInterface;
 use Booking\Service\Currency\Converter;
+use Booking\Service\File\File;
+use Modules\Skolkovo22\Estates\Service\Estate\Estate;
 
+/** @var RouterInterface $router */
 /** @var Estate[] $estates */
 /** @var File[] $files */
 /** @var Converter $converter */
+/** @var int $count */
+/** @var int $limit */
 
 ?>
 <div class="estates-outer">

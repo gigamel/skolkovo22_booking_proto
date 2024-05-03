@@ -43,11 +43,6 @@ abstract class AbstractModule implements ModuleInterface
     }
 
     /**
-     * @return string
-     */
-    abstract protected function getModuleDir(): string;
-
-    /**
      * @param string $view
      * @param array $vars
      *
