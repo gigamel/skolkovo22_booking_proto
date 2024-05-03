@@ -17,6 +17,9 @@ use Skolkovo22\Http\Protocol\ClientMessageInterface;
 
 class ModuleResolver implements ModuleResolverInterface
 {
+    /** @var string|null */
+    protected $defaultModuleId;
+
     /**
      * @param RouterInterface $router
      * @param ReflectorInterface $reflector
@@ -31,6 +34,14 @@ class ModuleResolver implements ModuleResolverInterface
     ) {
     }
     
+    /**
+     * @inheritDoc
+     */
+    public function setDefaultModuleId(string $id): void
+    {
+        $this->defaultModuleId = $id;
+    }
+
     /**
      * @param ClientMessageInterface $request
      *
@@ -56,7 +67,15 @@ class ModuleResolver implements ModuleResolverInterface
      */
     protected function createModuleInstance(ClientMessageInterface $request): ModuleInterface
     {
-        $route = $this->router->handle($request);
+        try {
+            $route = $this->router->handle($request);
+        } catch (RouteNotFoundException $e) {
+            if (is_null($this->defaultModuleId)) {
+                throw $e;
+            }
+
+            $route = new Route('/', $this->defaultModuleId, ClientMessageInterface::HTTP_METHODS);
+        }
         
         $moduleClassName = sprintf('%s\\Module', $this->getModuleNamespace($route));
         if (!class_exists($moduleClassName)) {

@@ -61,7 +61,6 @@ img {
 
 .header {
     padding: 15px 0;
-    margin-bottom: 45px;
 }
 
 .logo {
@@ -73,7 +72,6 @@ img {
     font-weight: 700;
     text-decoration: none;
     margin-right: 35px;
-    padding: 15px;
     transition: all .25s ease-out;
 }
 
@@ -120,6 +118,10 @@ img {
 
 .estate-images {
     margin-bottom: 25px;
+}
+
+h1, h2, h3, p, div {
+    margin-bottom: 15px;
 }
 
 h1 {
@@ -173,4 +175,27 @@ strong {
     box-sizing: border-box;
     padding: 15px;
     width: 100%;
+}
+
+/* nav */
+.nav {
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #999999;
+    margin-bottom: 35px;
+    padding: 15px 0;
+}
+
+.nav a {
+    border: 2px solid #999;
+    display: inline-block;
+    text-decoration: none;
+    color: #999;
+    padding: 9px;
+    font-weight: 700;
+}
+
+.nav a:hover {
+    border-color: #333;
+    background-color: #333;
+    color: #fff;
 }

@@ -9,7 +9,10 @@
     <div class="app">
       <div class="header">
         <a href="/" class="logo">Skolkovo22Booking</a>
-        <span class="slogan">Возьми в аренду!</span>
+        <span class="slogan">Estates for you!</span>
+      </div>
+      <div class="nav">
+        <a href="/estates/">Estates catalog</a>
       </div>
       <div class="content">
         <?= $this->getContent(); ?>

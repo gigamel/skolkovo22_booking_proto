@@ -106,12 +106,16 @@ final class App
      */
     private function createInstanceModule(ClientMessageInterface $request, ContainerInterface $container, ReflectorInterface $reflector): ModuleInterface
     {
-        return (new ModuleResolver(
+        $resolver = (new ModuleResolver(
             $container->get(RouterInterface::class),
             $reflector,
             $container,
             $this->getBaseViewDirectory()
-        ))->resolve($request);
+        ));
+
+        $resolver->setDefaultModuleId('skolkovo22.base');
+
+        return $resolver->resolve($request);
     }
 
     /**
