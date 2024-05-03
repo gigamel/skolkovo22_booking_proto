@@ -32,6 +32,8 @@ final class Module extends AbstractEstatesModule
             [
                 'estate' => $estate,
                 'router' => $this->router,
+                'converter' => $this->converter,
+                'files' => $this->fileRepository->getByEntity('estate', $estate->id),
             ]
         );
     }

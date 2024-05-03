@@ -65,7 +65,7 @@ class Module extends AbstractEstatesModule
      *
      * @return File[]
      */
-    protected function getFiles(array $estates): array
+    private function getFiles(array $estates): array
     {
         $estatesIds = [];
         foreach ($estates as $estate) {

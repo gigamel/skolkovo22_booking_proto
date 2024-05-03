@@ -1,14 +1,9 @@
 <?php
 
-use App\Common\Routing\RouterInterface;
-use Booking\Service\Currency\Converter;
-use Booking\Service\File\File;
-use Modules\Skolkovo22\Estates\Service\Estate\Estate;
-
-/** @var RouterInterface $router */
-/** @var Estate[] $estates */
-/** @var File[] $files */
-/** @var Converter $converter */
+/** @var \App\Common\Routing\RouterInterface $router */
+/** @var \Modules\Skolkovo22\Estates\Service\Estate\Estate[] $estates */
+/** @var \Booking\Service\File\File[] $files */
+/** @var \Booking\Service\Currency\Converter $converter */
 /** @var int $count */
 /** @var int $limit */
 
@@ -60,6 +55,6 @@ use Modules\Skolkovo22\Estates\Service\Estate\Estate;
         <?php for ($page = 1; $page <= $pages; $page++): ?>
         <a href="/page/<?=$page;?>" class="page-number"><?= $page; ?></a>
         <?php endfor; ?>
-
+        
     </div>
 </div>
